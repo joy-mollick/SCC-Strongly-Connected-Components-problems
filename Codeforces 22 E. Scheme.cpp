@@ -1,5 +1,26 @@
 
-/// Time-1290ms
+/// Time- 560ms
+
+/*
+ Here , it is guarantee that ,every edge has out-degree.
+ So,obviously our structure will like that our connected component(not strongly) will be like 
+ a cycle or from a node the path goes to a cycle.
+             
+             3- 5
+             |  |
+       1- 2- 4- 6  , - state for directed edge  or a cycle     
+        
+         like this cycle.
+             3- 5
+             |  |
+             4- 6
+             
+we will store every component's first element from where journey of a connected component starts like (1) in above diagram and end (4) i.e. from 4 we can again come back to 4.
+for cycle like above,the start point will be any node of a cycle where end point will be also that (starting node),because cycle form this structure.
+    Then, we add the current's end point to next's start point ,and at the last we add last component's end point to the first component's start point.
+    So, overall it forms a strongly connected component.
+*/
+
 
 #include<bits/stdc++.h>
 
@@ -30,6 +51,7 @@ void dfs(int u)
         {
             dfs(v);
         }
+       /// already visited,so this is the last point we reach.
         else
         {
             cmp_pro[connctd_cmp_cnt].second=v;
@@ -53,7 +75,8 @@ int main()
     /// this is for those fact where , a path from a node i goes towards a cycle
      for (int i = 1; i <= n; ++i)
     {
-        /// no incoming edge comes to this node
+        /// no incoming edge comes to this node.
+        /// this is the start(first) point of every component.
         if ((rev[i].size())==0)
         {
             cmp_pro[connctd_cmp_cnt].first = i;
@@ -63,6 +86,7 @@ int main()
     }
 
     /// this is for disconnected cycle (loop)
+    /// here starting and end point are the same.
      for (int i = 1; i <= n; ++i) {
         if (!visited[i])
         {
